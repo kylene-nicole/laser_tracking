@@ -16,7 +16,7 @@ pan_servo = Servo(18, min_pulse_width=0.5/1000, max_pulse_width=2.5/1000, pin_fa
 tilt_servo = Servo(23, min_pulse_width=0.5/1000, max_pulse_width=2.5/1000, pin_factory=factory)
 
 mqtt_broker = ""
-mqtt_topic = "laser_turret/angles"
+mqtt_topic = "laser/system"
 client = mqtt.Client()
 
 def on_connect(client, userdata, flags, rc):
@@ -32,8 +32,19 @@ def on_message(client, userdata, msg):
         data = json.loads(msg.payload.decode('utf-8'))
         set_servo_angle(pan_servo, data['pan'])
         set_servo_angle(tilt_servo, data['tilt'])
+        set_laser(data['laser'])
     except (json.JSONDecodeError, KeyError) as e:
         logging.error(f"Error processing message: {e}")
+
+def set_laser(state):
+    if state == "on":
+        laser.on()
+        logging.info("Laser is on")
+    elif state == "off":
+        laser.off()
+        logging.info("Laser is off")
+    else:
+        logging.error("Invalid laser state")
 
 def set_servo_angle(servo, angle):
     servo.value = convert_pwm(angle)
@@ -56,26 +67,26 @@ def main():
     except Exception as e:
         logging.error(f"Failed to connect to MQTT broker: {e}")
         sys.exit(1)
-        
+
     set_servo_default()    
 
-    laser.on()
+    # laser.on()
     
-    i = 25
-    while i <= 90:
-        set_servo_angle(pan_servo, i)
-        time.sleep(1)
-        i += 5
+    # i = 25
+    # while i <= 90:
+    #     set_servo_angle(pan_servo, i)
+    #     time.sleep(1)
+    #     i += 5
 
-    set_servo_default()    
+    # set_servo_default()    
 
-    y = -5
-    while y <= 25:
-        set_servo_angle(tilt_servo, y)
-        time.sleep(1)
-        y += 5
+    # y = -5
+    # while y <= 25:
+    #     set_servo_angle(tilt_servo, y)
+    #     time.sleep(1)
+    #     y += 5
 
-    set_servo_default()
+    # set_servo_default()
 
     laser.off()
 

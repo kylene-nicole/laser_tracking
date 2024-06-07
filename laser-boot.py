@@ -30,6 +30,8 @@ def main():
         time.sleep(1)
         i += 5
 
+    set_servo_default()    
+
     y = -5
     while y <= 25:
         set_servo_angle(tilt_servo, y)

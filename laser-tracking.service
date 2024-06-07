@@ -1,12 +1,17 @@
 [Unit]
-Description=Run object tracking python script with launch pigpiod and mqtt on boot
-After=network.target
+Description=Run my Python script with pigpio and MQTT on boot
+After=network.target pigpiod.service 
+Requires=pigpiod.service 
 
 [Service]
-ExecStart=/bin/bash /path/to/start_pigpiod.sh
+ExecStart=/usr/bin/python /home/pi/Desktop/my_script.py
 Restart=always
+RestartSec=10
 User=pi
 Group=pi
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=my_script_service
 
 [Install]
 WantedBy=multi-user.target

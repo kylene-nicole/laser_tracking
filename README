@@ -1,0 +1,8 @@
+chmod +x /path/to/laser-tracking.sh
+
+
+# to enable the Service
+sudo systemctl daemon-reload
+sudo systemctl enable laser-tracking.service
+sudo systemctl start laser-tracking.service
+sudo systemctl status laser-tracking.service

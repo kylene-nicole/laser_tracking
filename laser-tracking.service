@@ -1,0 +1,12 @@
+[Unit]
+Description=Run object tracking python script with launch pigpiod and mqtt on boot
+After=network.target
+
+[Service]
+ExecStart=/bin/bash /path/to/start_pigpiod.sh
+Restart=always
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target

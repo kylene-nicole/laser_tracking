@@ -6,14 +6,14 @@ import time
 factory = PiGPIOFactory()
 
 laser = OutputDevice(17, pin_factory=factory)
-pan_servo = Servo(18, pin_factory=factory)
-tilt_servo = Servo(23, pin_factory=factory)
+pan_servo = Servo(18, min_pulse_width=0.5/1000, max_pulse_width=2.5/1000, pin_factory=factory)
+tilt_servo = Servo(23, min_pulse_width=0.5/1000, max_pulse_width=2.5/1000, pin_factory=factory)
 
 def set_servo_angle(servo, angle):
     servo.value = convert_pwm(angle)
 
 def convert_pwm(angle):
-    return math.sin(math.radians(angle)) / 2 + 0.5
+    return math.sin(math.radians(angle))
 
 def set_servo_default():
     set_servo_angle(pan_servo, 50)

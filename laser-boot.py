@@ -1,5 +1,5 @@
 from gpiozero import Servo, OutputDevice
-import gpiozero.pins.pigpio import PiGPIOFactory
+from gpiozero.pins.pigpio import PiGPIOFactory
 import math
 import time
 

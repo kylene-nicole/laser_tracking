@@ -24,13 +24,17 @@ def main():
 
     laser.on()
     
-    for i in [25, 90]:
+    i = 25
+    while i <= 90:
         set_servo_angle(pan_servo, i)
         time.sleep(1)
+        i += 5
 
-    for y in [-5, 25]:
+    y = -5
+    while y <= 25:
         set_servo_angle(tilt_servo, y)
         time.sleep(1)
+        y += 5
 
     set_servo_default()
 

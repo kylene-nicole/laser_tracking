@@ -29,7 +29,10 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     logging.info(f"Received message: {msg.payload}")
     try:
-        data = json.loads(msg.payload.decode('utf-8'))
+        byte_str = msg.payload
+        decoded_str = byte_str.decode("utf-8").replace("'", '"')
+        data = json.loads(decoded_str)
+        logging.info(f"Received message: {data}")
         set_servo_angle(pan_servo, data['pan'])
         set_servo_angle(tilt_servo, data['tilt'])
         set_laser(data['laser'])
